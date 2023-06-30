@@ -18,16 +18,9 @@ class QueenPositionsTaken:
             self.chessBoardForMoving.append(arr)
 
     def putAllQueens(self):
-        # i = random.randint(0, 7)
-        # j = random.randint(0, 7)
-        # i = 5
-        # j = 0
         for i in range(len(self.queensPosition)): 
-            # h, v = self.queensPosition[i][0], self.queensPosition[i][1]
             self.chessBoard[self.queensPosition[i]] = 'Queen'
-        # map(lambda x: )
-        # self.chessBoard[self.chessBoardForMoving[i][j]] = 'Queen'
-        # self.queensPosition.append(self.chessBoardForMoving[i][j])
+
 
     def myFunc(self, x):
         
