@@ -1,10 +1,10 @@
 import random
 
-class QueenPositions:
-    def __init__(self):
+class QueenPositionsTaken:
+    def __init__(self, arr):
         self.chessBoard = {}
         self.chessBoardForMoving = []
-        self.queensPosition = list()
+        self.queensPosition = arr
 
     def initSets(self):
         horizont: str = ["a", "b", "c", "d", "e", "f", "g", "h"]
@@ -17,45 +17,46 @@ class QueenPositions:
 
             self.chessBoardForMoving.append(arr)
 
-    def putFirstQueen(self):
-        i = random.randint(0, 7)
-        j = random.randint(0, 7)
-        self.chessBoard[self.chessBoardForMoving[i][j]] = 'Queen'
-        self.queensPosition.append(self.chessBoardForMoving[i][j])
+    def putAllQueens(self):
+        # i = random.randint(0, 7)
+        # j = random.randint(0, 7)
+        # i = 5
+        # j = 0
+        for i in range(len(self.queensPosition)): 
+            # h, v = self.queensPosition[i][0], self.queensPosition[i][1]
+            self.chessBoard[self.queensPosition[i]] = 'Queen'
+        # map(lambda x: )
+        # self.chessBoard[self.chessBoardForMoving[i][j]] = 'Queen'
+        # self.queensPosition.append(self.chessBoardForMoving[i][j])
 
-    def findNewPositions(self):
-        initHorizont = 7
-        initVert = 7
-        possibleTOPut = False
-        queenPos = ""
-        while (initHorizont > -1):
-            while (initVert > -1):
-                queenPos = self.chessBoardForMoving[initHorizont][initVert]
-
-                if self.chessBoard[queenPos] != 'Queen':
-                    possibleTOPut = self.checkHorizont(queenPos, initVert)
-                    if (possibleTOPut): possibleTOPut = self.checkVertical(queenPos, initHorizont)
-                    if (possibleTOPut): possibleTOPut = self.checkDiagonals(initHorizont, initVert)
-
-                if (possibleTOPut): break
-                initVert -= 1
-            
-            if (possibleTOPut): break
-            initVert = 7
-            initHorizont -= 1
+    def myFunc(self, x):
         
-        self.chessBoard[queenPos] = "Queen"
-        self.queensPosition.append(queenPos)
+        self.chessBoard[x] = "Empty"
+        horizont = ["a", "b", "c", "d", "e", "f", "g", "h"]
+        vert = horizont.index(x[0])
+        horiz = int(x[1]) - 1
+        # print(x, vert, horiz)
+        possibleTOPut = self.checkHorizont(horiz)
+        if (possibleTOPut): possibleTOPut = self.checkVertical(vert)
+        if (possibleTOPut): possibleTOPut = self.checkDiagonals(vert, horiz)
+        self.chessBoard[x] = "Queen"
+        return possibleTOPut
+
+    def findSolution(self):
+
+        arr = list(map(self.myFunc, self.queensPosition))
+        result = list(filter(lambda x: x, arr))
+        print(len(result) == 8)
 
 
-    def checkHorizont(self, pos: str, vert: int):
+    def checkHorizont(self, vert: int):
         keyLambda = lambda x: self.chessBoardForMoving[x][vert]
         arr = list(filter(lambda x: x == "Queen", [self.chessBoard[keyLambda(i)] for i in range(8)]))
 
         return (len(arr) == 0)
 
     
-    def checkVertical(self, pos: str, horisont: int):
+    def checkVertical(self, horisont: int):
         keyLambda = lambda x: self.chessBoardForMoving[horisont][x]
         arr = list(filter(lambda x: x == "Queen", [self.chessBoard[keyLambda(i)] for i in range(8)]))
 
